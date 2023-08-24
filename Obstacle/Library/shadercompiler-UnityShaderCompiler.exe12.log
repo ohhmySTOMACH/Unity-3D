@@ -1,0 +1,7 @@
+Base path: 'D:/Program Files (x86)/Unity/Hub/Editor/2020.1.1f1/Editor/Data', plugins path 'D:/Program Files (x86)/Unity/Hub/Editor/2020.1.1f1/Editor/Data/PlaybackEngines'
+Cmd: initializeCompiler
+Cmd: compileComputeKernel
+  error: 2 plat 4 at CMWaveform.compute(1): failed to open source file: 'StdLib.hlsl'
+  api=4 insize=1897 outsize=0 ok=0
+
+Quitting shader compiler process
