@@ -1,55 +1,65 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+namespace Rocket
 {
-    Rigidbody movementRigidbody;
-    [SerializeField] float mainThrust = 150f;
-    [SerializeField] float rotationThrust = 100f;
-
-    // Start is called before the first frame update
-    void Start()
+    public class Movement : MonoBehaviour
     {
-        movementRigidbody = GetComponent<Rigidbody>();
-    }
+        AudioSource m_audioSource;
+        Rigidbody movementRigidbody;
+        [SerializeField] float mainThrust = 150f;
+        [SerializeField] float rotationThrust = 100f;
 
-    // Update is called once per frame
-    void Update()
-    {
-        ProcessThrust();
-        ProcessRotation();
-    }
-
-    void ProcessThrust()
-    {
-        if (Input.GetKey(KeyCode.Space))
+        // Start is called before the first frame update
+        void Start()
         {
-            // (0,1,0)
-            movementRigidbody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
-            Debug.Log("Pressed SPACE - Thrusting");
+            movementRigidbody = GetComponent<Rigidbody>();
+            m_audioSource = GetComponent<AudioSource>();
         }
-    }
 
-    void ProcessRotation()
-    {
-        if(Input.GetKey(KeyCode.A))
+        // Update is called once per frame
+        void Update()
         {
-            // Freeze rotation so we can manually rotate
-            movementRigidbody.freezeRotation = true;
-
-            // Or (0,0,zAngle)
-            transform.Rotate(Vector3.forward * rotationThrust * Time.deltaTime);
-
-            // Unfreeze rotation so that physics system can take over
-            movementRigidbody.freezeRotation = false; 
+            ProcessThrust();
+            ProcessRotation();
         }
-        else if(Input.GetKey(KeyCode.D))
+
+        void ProcessThrust()
         {
-            movementRigidbody.freezeRotation = true;
-            transform.Rotate(Vector3.back * rotationThrust * Time.deltaTime);
-            movementRigidbody.freezeRotation = false;
+            if (Input.GetKey(KeyCode.Space))
+            {
+                // (0,1,0)
+                movementRigidbody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
+
+                if(!m_audioSource.isPlaying)
+                {
+                    m_audioSource.Play();
+                }
+            }
+            else
+            {
+                m_audioSource.Stop();
+            }
+        }
+
+        void ProcessRotation()
+        {
+            if(Input.GetKey(KeyCode.A))
+            {
+                // Freeze rotation so we can manually rotate
+                movementRigidbody.freezeRotation = true;
+
+                // Or (0,0,zAngle)
+                transform.Rotate(Vector3.forward * rotationThrust * Time.deltaTime);
+
+                // Unfreeze rotation so that physics system can take over
+                movementRigidbody.freezeRotation = false; 
+            }
+            else if(Input.GetKey(KeyCode.D))
+            {
+                movementRigidbody.freezeRotation = true;
+                transform.Rotate(Vector3.back * rotationThrust * Time.deltaTime);
+                movementRigidbody.freezeRotation = false;
+            }
         }
     }
 }
