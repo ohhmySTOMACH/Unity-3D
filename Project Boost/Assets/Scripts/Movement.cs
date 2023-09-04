@@ -4,10 +4,14 @@ namespace Rocket
 {
     public class Movement : MonoBehaviour
     {
-        AudioSource m_audioSource;
-        Rigidbody movementRigidbody;
+        
+        [SerializeField] AudioClip m_audioClip;
         [SerializeField] float mainThrust = 150f;
         [SerializeField] float rotationThrust = 100f;
+        
+        AudioSource m_audioSource;
+        Rigidbody movementRigidbody;
+
 
         // Start is called before the first frame update
         void Start()
@@ -32,7 +36,7 @@ namespace Rocket
 
                 if(!m_audioSource.isPlaying)
                 {
-                    m_audioSource.Play();
+                    m_audioSource.PlayOneShot(m_audioClip);
                 }
             }
             else

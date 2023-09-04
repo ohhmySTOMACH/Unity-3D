@@ -7,7 +7,17 @@ namespace Rocket
     public class CollisionHandler : MonoBehaviour
     {
         [SerializeField] float delayTime = 1f;
+        [SerializeField] AudioClip crashAudio;
+        [SerializeField] AudioClip successAudio;
+
         Movement movement;
+        AudioSource m_audioSource;
+
+        void Start()
+        {
+            m_audioSource = GetComponent<AudioSource>();
+        }
+
         void OnCollisionEnter(Collision other) {
             switch (other.gameObject.tag)
             {
@@ -27,6 +37,7 @@ namespace Rocket
         {
             movement = GetComponent<Movement>();
             movement.enabled = false;
+            m_audioSource.PlayOneShot(successAudio);
             Invoke("LoadNextLevel", delayTime);
         }
 
@@ -34,6 +45,7 @@ namespace Rocket
         {
             movement = GetComponent<Movement>();
             movement.enabled = false;
+            m_audioSource.PlayOneShot(crashAudio);
             Invoke("ReloadLevel", delayTime);
         }
 
