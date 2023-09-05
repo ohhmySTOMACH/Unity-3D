@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,18 +10,42 @@ namespace Rocket
         [SerializeField] float delayTime = 1f;
         [SerializeField] AudioClip crashAudio;
         [SerializeField] AudioClip successAudio;
+        [SerializeField] ParticleSystem crashParticle;
+        [SerializeField] ParticleSystem successParticle;
 
         Movement movement;
         AudioSource m_audioSource;
+        
+        bool isTransitioning = false;
+        bool collisionDisable = false;
 
         void Start()
         {
             m_audioSource = GetComponent<AudioSource>();
         }
 
-        void OnCollisionEnter(Collision other) {
-            switch (other.gameObject.tag)
+        void Update()
+        {
+            RespondToDebugKeys();
+        }
+         void RespondToDebugKeys()
+        {
+            if (Input.GetKeyDown(KeyCode.C))
             {
+                collisionDisable = !collisionDisable;
+            } 
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                LoadNextLevel();
+            }
+        }
+
+        void OnCollisionEnter(Collision other) {
+            if (!isTransitioning && !collisionDisable)
+            {
+                m_audioSource.Stop();
+                switch (other.gameObject.tag)
+                {
                 case "Finish":
                     StartSuccessSequence();
                     break;
@@ -30,22 +55,27 @@ namespace Rocket
                 default:
                     StartCrashSequence();
                     break;
+                }
             }
         }
 
         void StartSuccessSequence()
         {
+            isTransitioning = true;
             movement = GetComponent<Movement>();
             movement.enabled = false;
             m_audioSource.PlayOneShot(successAudio);
+            successParticle.Play();
             Invoke("LoadNextLevel", delayTime);
         }
 
         void StartCrashSequence()
         {
+            isTransitioning = true;
             movement = GetComponent<Movement>();
             movement.enabled = false;
             m_audioSource.PlayOneShot(crashAudio);
+            crashParticle.Play();
             Invoke("ReloadLevel", delayTime);
         }
 
