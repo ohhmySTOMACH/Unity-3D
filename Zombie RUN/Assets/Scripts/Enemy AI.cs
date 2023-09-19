@@ -8,8 +8,13 @@ public class EnemyAI : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] float chaseDistance = 5f;
+    [SerializeField] float turnSpeed = 5f;
 
     NavMeshAgent navMeshAgent;
+    const string IDLE_ANIMATOR = "idle";
+    const string MOVE_ANIMATOR = "move";
+    const string ATTACK_ANIMATOR = "attack";
+
 
     float distanceToTarget = Mathf.Infinity;
     bool isProvoked = false;
@@ -31,26 +36,45 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public void OnDamageTaken()
+    {
+        isProvoked = true;
+    }
+
     void EngageTarget()
     {
-        if(distanceToTarget > navMeshAgent.stoppingDistance) {
+        if(distanceToTarget >= navMeshAgent.stoppingDistance) {
+            GetComponent<Animator>().SetBool(ATTACK_ANIMATOR, false);
             ChaseTarget();
-        } else {
+        } 
+        
+        if(distanceToTarget <= navMeshAgent.stoppingDistance)
+        {
             AttackTarget();
+            FaceTarget();
         }
     }
 
     private void ChaseTarget()
-    {
+    { 
+        GetComponent<Animator>().SetTrigger(MOVE_ANIMATOR);
         navMeshAgent.SetDestination(target.position);
-        Debug.Log("Distance: " + distanceToTarget);
     }
 
     private void AttackTarget()
     {
-        Debug.Log("Attacking Target" + target.name);
+        GetComponent<Animator>().SetBool(ATTACK_ANIMATOR, true);
     }
 
+    private void FaceTarget()
+    {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
+    }
+
+
+    // For Debug
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

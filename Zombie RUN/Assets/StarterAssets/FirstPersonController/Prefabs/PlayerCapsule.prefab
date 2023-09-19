@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 1978471637655604388}
   - component: {fileID: 5420857361349278248}
   - component: {fileID: 8616685848737228376}
+  - component: {fileID: 7922929825469067877}
   m_Layer: 8
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -367,6 +368,19 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &7922929825469067877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8616685848737228372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e87050fd5a3638943916e80a03b52c3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHitPoints: 100
 --- !u!1001 &7761582521517929343
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -375,6 +389,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8997996947095583982}
     m_Modifications:
+    - target: {fileID: 3849135511179543308, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4980525592479946304, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -522,6 +540,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9005220659476430823, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3549457342599157093}
+    - targetCorrespondingSourceObject: {fileID: 4980525592481941642, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1294479737405154495}
   m_SourcePrefab: {fileID: 100100000, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
 --- !u!1 &1679374630469307544 stripped
 GameObject:
@@ -572,9 +593,41 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!20 &1679374630469307546 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 9005220659476430821, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
+  m_PrefabInstance: {fileID: 7761582521517929343}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1679374630469307549 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
+  m_PrefabInstance: {fileID: 7761582521517929343}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3362165327123463157 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4980525592481941642, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
+  m_PrefabInstance: {fileID: 7761582521517929343}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1294479737405154495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3362165327123463157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4c86849e80a094d8f8225087ada935, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FPCamera: {fileID: 1679374630469307546}
+  raycastRange: 100
+  damageAmount: 20
+  muzzleFlash: {fileID: 6835424598151278707}
+  hitEffect: {fileID: 2123329238981119175, guid: e533e5d1c6c56024389f1e585471d093, type: 3}
+--- !u!198 &6835424598151278707 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3849135511179543308, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
   m_PrefabInstance: {fileID: 7761582521517929343}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8633842055877312839
